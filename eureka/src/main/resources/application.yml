@@ -1,0 +1,10 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/      #注册到注册中心地址
+    register-with-eureka: false                       #不把自己注册到注册中心  测试的时候扩容的时候设置为false也是能注册到别的注册中心上去的（后来发现是片区，，都不能用）
+  server:
+    enable-self-preservation: false                 #关闭保护机制默认是开启的
+spring:
+  application:
+    name: eureka
