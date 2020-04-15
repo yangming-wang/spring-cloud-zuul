@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: config
+  rabbitmq:
+    host: 47.107.39.228
+    port: 5672
+    username: admin
+    password: 123456
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitee.com/wang_yang_ming/config-repo
+          username: wang_yang_ming
+          password: wymhh0044wym
+          basedir:  E:\idea\imooc\multi-module\config\basedir
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+#暴露全部监控信息，properties的话，include后的*不用加引号
+management:
+  endpoints:
+    web:
+      expose: "*"
+
+
+
+#  server:
+#    port: 8469
