@@ -7,7 +7,6 @@ import com.imooc.product.VO.ResultVO;
 import com.imooc.product.common.DecreaseStockInput;
 import com.imooc.product.dataobject.ProductCategory;
 import com.imooc.product.dataobject.ProductInfo;
-import com.imooc.product.dto.CartDTO;
 import com.imooc.product.service.CategoryService;
 import com.imooc.product.service.ProductService;
 import com.imooc.product.utils.ResultVOUtil;
@@ -39,6 +38,10 @@ public class ProductController {
      * 4. 构造数据
      */
     @GetMapping("/list")
+    //使用这个注解，能够让这个api实现跨域访问了
+    //allowCredentials,值得注意的是,当它设置为true的话
+    //就是允许cookie跨域
+    @CrossOrigin(allowCredentials = "true")
     public ResultVO<ProductVO> list(){
         //1. 查询所有在架的商品
         List<ProductInfo> productInfoList=productService.findUpAll();
@@ -99,6 +102,11 @@ public class ProductController {
      */
     @PostMapping("/listForOrder")
     public List<ProductInfo> listForOrder(@RequestBody List<String> productIdList){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return productService.findList(productIdList);
     }
 

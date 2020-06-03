@@ -1,4 +1,4 @@
-//package com.imooc.apigateway.filter;
+package com.imooc.apigateway.filter;//package com.imooc.apigateway.filter;
 //
 //import com.imooc.apigateway.constant.RedisConstant;
 //import com.imooc.apigateway.utils.CookieUtil;
@@ -17,10 +17,12 @@
 //import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 //
 ///**
-// * 权限拦截 （区分买家和卖家）
+// * 权限拦截（区分买家和卖家）
+// * Created by 廖师兄
+// * 2018-02-15 15:34
 // */
 //@Component
-//public class AuthFilter extends ZuulFilter {
+//public class AuthSellerFilter extends ZuulFilter {
 //
 //    @Autowired
 //    private StringRedisTemplate stringRedisTemplate;
@@ -37,36 +39,33 @@
 //
 //    @Override
 //    public boolean shouldFilter() {
-//        return true;
+//        RequestContext requestContext = RequestContext.getCurrentContext();
+//        HttpServletRequest request = requestContext.getRequest();
+//
+//        if ("/order/order/finish".equals(request.getRequestURI())) {
+//            return true;
+//        }
+//
+//        return false;
 //    }
 //
 //    @Override
 //    public Object run() {
 //        RequestContext requestContext = RequestContext.getCurrentContext();
 //        HttpServletRequest request = requestContext.getRequest();
+//
 //        /**
-//         * /order/create 只能买家访问(cookie里有openid)
 //         * /order/finish 只能卖家访问(cookie里有token, 并且对应的redis中值)
-//         * /product/list 都可访问
 //         */
-//        if ("/order/order/create".equals(request.getRequestURI())) {
-//            Cookie cookie = CookieUtil.get(request, "openid");
-//            if (cookie == null || StringUtils.isEmpty(cookie.getValue())) {
-//                requestContext.setSendZuulResponse(false);
-//                requestContext.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
-//            }
+//
+//        Cookie cookie = CookieUtil.get(request, "token");
+//        if (cookie == null
+//                || StringUtils.isEmpty(cookie.getValue())
+//                || StringUtils.isEmpty(stringRedisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_TEMPLATE, cookie.getValue())))) {
+//            requestContext.setSendZuulResponse(false);
+//            requestContext.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
 //        }
 //
-//        if ("/order/order/finish".equals(request.getRequestURI())) {
-//            Cookie cookie = CookieUtil.get(request, "token");
-//            if (cookie == null
-//                    || StringUtils.isEmpty(cookie.getValue())
-//                    || StringUtils.isEmpty(stringRedisTemplate.opsForValue()
-//                    .get(String.format(RedisConstant.TOKEN_TEMPLATE, cookie.getValue())))) {
-//                requestContext.setSendZuulResponse(false);
-//                requestContext.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
-//            }
-//        }
 //        return null;
 //    }
 //}
